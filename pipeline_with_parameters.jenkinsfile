@@ -48,7 +48,7 @@ pipeline {
 
                         script {
                             description = "Report from Branch: ${params.branch}"
-                            if (params.url != "") {
+                            if (params.url != null) {
                                  echo("Run report generation for ${params.url}")
                             }
                         }
