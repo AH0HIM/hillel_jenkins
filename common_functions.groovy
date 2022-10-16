@@ -1,7 +1,7 @@
 import hudson.model.User
 
 HTML_REPORT_PATH = ""
-GITHUB_USERNAME = "tishyk"
+GITHUB_USERNAME = "AH0HIM"
 
 def show_branches() {
   for (branch in ["main", "develop"]) {
