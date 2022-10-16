@@ -30,7 +30,7 @@ pipeline {
             }
         }
 
-        stages('Parallel Execution') {
+        stage('Parallel Execution') {
             parallel {
                 stage('Report') {
                     steps {
