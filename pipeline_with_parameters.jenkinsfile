@@ -11,10 +11,10 @@ pipeline {
         stage("Test Repo Setup") {
             steps {
                script {
-                    if ("${params.url}" == "http://example.com") {
-                      echo("URL ${params.URL} is added")
+                    if ("${params.url}" == null) {
+                      echo("URL ${params.url} is not exist")
                       } else {
-                      echo("URL ${params.URL} is not added")
+                      echo("URL ${params.url} is exist")
                       }
                     }
                 }
@@ -32,15 +32,13 @@ pipeline {
                     steps {
                         script {
                             description = "Report from Branch: ${params.branch}"
-                            println(description)
-                            if (params.url != "") {
-                                 print("Run report generation for ${params.url}")
+                            if (params.url != null) {
+                                 echo("Run report generation for ${params.url}")
                             }
                         }
                         script {
                             description = "Save logs for a test run. (${params.branch};${params.url})"
                             if (params.save_logs == true) {
-                                print(description)
                             }
                         }
                     }
@@ -50,15 +48,13 @@ pipeline {
 
                         script {
                             description = "Report from Branch: ${params.branch}"
-                            println(description)
                             if (params.url != "") {
-                                 print("Run report generation for ${params.url}")
+                                 echo("Run report generation for ${params.url}")
                             }
                         }
                         script {
                             description = "Save logs for a test run. (${params.branch};${params.url})"
                             if (params.save_logs == true) {
-                                print(description)
                             }
                         }
                     }
