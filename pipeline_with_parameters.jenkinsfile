@@ -8,13 +8,13 @@ pipeline {
         booleanParam(name: "save_logs", defaultValue: true, description: "Run to save logs")
         }
     stages {
-        stage('Test Repo Setup') {
+        stage("Test Repo Setup") {
             steps {
                script {
-                    if ("${params.url}" == "url") {
-                      println("URL ${params.URL} is added")
+                    if ("${params.url}" == "http://example.com") {
+                      echo("URL ${params.URL} is added")
                       } else {
-                      println("URL ${params.URL} is not added")
+                      echo("URL ${params.URL} is not added")
                       }
                     }
                 }
@@ -22,10 +22,9 @@ pipeline {
 
         stage('Test Run') {
             steps {
-                println("python -m pytest ${params.test} ${params.test_params} --url ${url}")
+                println("python -m pytest ${test} ${test_params} --url ${url}")
             }
         }
-
 
         stage('Parallel Execution') {
             parallel {
