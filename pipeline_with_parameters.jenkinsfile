@@ -1,21 +1,20 @@
 pipeline {
     agent 'any'
     parameters {
-        string(name: "branch", defaultValue: "main", description: "which branch to use")
-        string(name: "url", defaultValue: "url", description: "which url to use")
-        choice(name: "test", choices:["all", "dir", "file"],  description: "Run test stage for test targets [all, dir, file]")
-        choice(name: "test_params", choices:["all", "param1", "param2"],  description: "Run test stage for test targets [all, param1, param2]")
-        booleanParam(name: "save_logs", description: "save logs", defaultValue: false)
+        choice(name: "branch", defaultValue: "main", choices: ["main", "develop"], description: "Which branch to use")
+        string(name: "url", defaultValue: "http://example.com", description: "Enter URL for testing")
+        choice(name: "test", choices:["dir", "file"],  description: "Run tests through: [all, dir, file]")
+        choice(name: "test_params", choices:["all", "option_1", "option_2", "option_3"],  description: "Run tests with parameters: [all, option_1, option_2, option_3]")
+        booleanParam(name: "save_logs", defaultValue: true, description: "Run to save logs")
         }
     stages {
         stage('Test Repo Setup') {
             steps {
-               println("init Test Repo Setup stage")
                script {
-                    if (params.url == "url") {
-                      println("URL exists")
+                    if ("${params.url}" == "url") {
+                      println("URL ${params.URL} is added")
                       } else {
-                      println("URL does not exist")
+                      println("URL ${params.URL} is not added")
                       }
                     }
                 }
@@ -23,16 +22,15 @@ pipeline {
 
         stage('Test Run') {
             steps {
-                println("python -m pytest ${params.test} ${params.test_params} --url ${params.url}")
+                println("python -m pytest ${params.test} ${params.test_params} --url ${url}")
             }
         }
 
 
-        stage('Parallel  execution') {
+        stage('Parallel Execution') {
             parallel {
                 stage('Report') {
                     steps {
-                        println("init Report stage")
                         script {
                             description = "Report from Branch: ${params.branch}"
                             println(description)
@@ -50,8 +48,6 @@ pipeline {
                 }
                 stage('Log Collection') {
                     steps {
-                        println("init Log Collection stage")
-
 
                         script {
                             description = "Report from Branch: ${params.branch}"
