@@ -1,3 +1,7 @@
+PATH = "/var/lib/jenkins/workspace/HillelTestProject/pipeline_with_parameters"
+def importCommon() {common = load "${PATH}/common_functions.groovy"; return common; }
+
+
 pipeline {
     agent 'any'
     parameters {
@@ -26,35 +30,24 @@ pipeline {
             }
         }
 
-        stage('Parallel Execution') {
+        stages('Parallel Execution') {
             parallel {
                 stage('Report') {
                     steps {
                         script {
-                            description = "Report from Branch: ${params.branch}"
-                            if (params.url != null) {
-                                 echo("Run report generation for ${params.url}")
-                            }
-                        }
-                        script {
-                            description = "Save logs for a test run. (${params.branch};${params.url})"
-                            if (params.save_logs == true) {
+                            sh("pwd")
+                            if (common) {
+                                 common.report()
                             }
                         }
                     }
                 }
                 stage('Log Collection') {
                     steps {
-
                         script {
-                            description = "Report from Branch: ${params.branch}"
-                            if (params.url != null) {
-                                 echo("Run report generation for ${params.url}")
-                            }
-                        }
-                        script {
-                            description = "Save logs for a test run. (${params.branch};${params.url})"
-                            if (params.save_logs == true) {
+                            sh("pwd")
+                            if (common) {
+                                 common.log_collection()
                             }
                         }
                     }
