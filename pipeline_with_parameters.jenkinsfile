@@ -11,6 +11,9 @@ pipeline {
         choice(name: "test_params", choices:["all", "option_1", "option_2", "option_3"],  description: "Run tests with parameters: [all, option_1, option_2, option_3]")
         booleanParam(name: "save_logs", defaultValue: true, description: "Run to save logs")
         }
+    environment {
+      common = importCommon()
+    }
     stages {
         stage("Test Repo Setup") {
             steps {
